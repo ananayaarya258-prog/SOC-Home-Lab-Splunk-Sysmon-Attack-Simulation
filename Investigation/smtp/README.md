@@ -208,7 +208,7 @@ The approach throughout was **broad → narrow**: establish scope, find the outl
 
 **Analysis:** The source-to-destination ratio was the first red flag. Legitimate mail clients have a fan-out of 1. An 11-to-20 relationship across a full day does not describe people sending email; it describes machines enumerating servers.
 
-📸 [Raw smtp.log events before any search](screenshots/ss1png)
+📸 [Raw smtp.log events before any search](smtp/screenshots/ss1png)
 
 ---
 
