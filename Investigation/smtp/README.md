@@ -235,7 +235,7 @@ The approach throughout was **broad → narrow**: establish scope, find the outl
 
 **Analysis:** A mail client should show `unique_targets = 1`. Nine and fifteen are enumeration, full stop. `192.168.202.110` alone generated more than half of all traffic in the dataset. These two hosts became the focus of everything that followed.
 
-📸 *Screenshot: `screenshots/02-fanout.png`*
+📸 ![Image](screenshots/ss4.png)
 
 ---
 
@@ -257,7 +257,7 @@ The approach throughout was **broad → narrow**: establish scope, find the outl
 
 **Analysis:** This turned an anonymous scan into an attributed one. `nmap.scanme.org` is the literal default baked into Nmap's SMTP scripts. The Nessus strings confirm a second, more thorough tool was also in play. Two different tools means two different intents: Nmap checking which doors exist, Nessus actually trying the handles.
 
-📸 *Screenshot: `screenshots/03-helo.png`*
+📸 ![Image](screenshots/ss5.png)
 
 ---
 
@@ -279,7 +279,7 @@ The approach throughout was **broad → narrow**: establish scope, find the outl
 
 **Analysis:** 44 sessions out of 194 ended in a protocol error. Humans and mail clients do not routinely send commands a server cannot parse or send them out of order. Deliberately malformed input is how scanners fingerprint server software, since different implementations produce subtly different error text. The error rate itself is the signal.
 
-📸 *Screenshot: `screenshots/04-codes.png`*
+📸 ![Image](screenshots/ss6.png)
 
 ---
 
@@ -304,8 +304,7 @@ The payload is deliberately harmless. `sleep 5` does nothing but pause. That is 
 
 **8 of the 11 attempts were answered with `250 Ok`.** The servers accepted a recipient address containing a shell metacharacter without objection. That acceptance is the single most important finding in this investigation.
 
-📸 *Screenshot: `screenshots/05-injection.png`* — primary evidence table
-
+📸 ![Image](screenshots/ss7.png)
 ---
 
 ### Query 6 — Detect authentication probing
@@ -326,8 +325,11 @@ The payload is deliberately harmless. `sleep 5` does nothing but pause. That is 
 
 **Analysis:** Step 4 is the attribution. This was Nessus running its SMTP authentication and relay checks, not a person at a keyboard. Step 3 is the security issue: an exposed `VRFY` command lets an attacker confirm valid usernames before ever attempting a password, turning a blind brute-force into a targeted one.
 
-📸 *Screenshot: `screenshots/06-auth.png`*
+📸 ![Image](screenshots/ss8.png)
 
+📸 ![Image](screenshots/ss9.png)
+
+📸 ![Image](screenshots/ss10.png)
 ---
 
 ### Query 7 — Build the timeline
@@ -446,36 +448,7 @@ index=zeek sourcetype=zeek:smtp
 
 ---
 
-## 10. Repository Structure
 
-```
-smtp-log-investigation/
-├── README.md                     # this file
-├── data/
-│   └── smtp.log                  # Zeek SMTP log (sample dataset)
-├── queries/
-│   ├── 00-field-extraction.spl   # the extraction block from §4
-│   ├── 01-scope.spl
-│   ├── 02-fanout.spl
-│   ├── 03-helo-fingerprint.spl
-│   ├── 04-response-codes.spl
-│   ├── 05-injection-hunt.spl
-│   ├── 06-auth-probing.spl
-│   └── 07-timeline.spl
-├── detections/
-│   └── smtp-command-injection.spl
-├── screenshots/
-│   ├── 00-raw-events.png
-│   ├── 01-scope.png
-│   ├── 02-fanout.png
-│   ├── 03-helo.png
-│   ├── 04-codes.png
-│   ├── 05-injection.png
-│   ├── 06-auth.png
-│   └── 07-timeline.png
-└── docs/
-    └── full-lab-report.md        # long-form write-up
-```
 
 ---
 
