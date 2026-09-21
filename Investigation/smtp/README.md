@@ -332,21 +332,7 @@ The payload is deliberately harmless. `sleep 5` does nothing but pause. That is 
 📸 ![Image](screenshots/ss10.png)
 ---
 
-### Query 7 — Build the timeline
 
-```spl
-| timechart span=15m dc(dest_ip) as targets_touched by src_ip
-```
-
-**Purpose:** Counts tell you what happened. A timeline tells you the *shape* of it, which is what separates an automated job from a person working live.
-
-**Result:** Activity distributed across the full 31 hours in discrete per-source bursts rather than one concentrated spike.
-
-**Analysis:** The rhythm is machine-generated. A human attacker works in a session and stops. A scheduled scan works through its target list methodically and keeps a steady cadence across a long window. The even distribution points to an automated, possibly recurring, scan job.
-
-📸 *Screenshot: `screenshots/07-timeline.png`*
-
-> **Pipeline note:** `timechart` operates on `_time`, but the extraction in §4 parsed the Zeek timestamp into a field called `ts` without overriding `_time`. If the events were indexed with Splunk's own ingest time rather than the log's, add `| eval _time=ts` immediately after the extraction block so the chart reflects real event time.
 
 ---
 
@@ -492,4 +478,4 @@ index=zeek sourcetype=zeek:smtp
 
 ---
 
-*Analysis performed as part of coursework in Security Information and Event Management (SIEM) / Log Analysis, B.Tech Cyber Security. Dataset is a public training capture; no production systems were involved.*
+
